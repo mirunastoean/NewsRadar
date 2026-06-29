@@ -8,4 +8,5 @@ class Article(Base):
     title = Column(String, index=True)
     url = Column(String, unique=True, index=True) 
     content = Column(Text, nullable=True)
+    source = Column(String)
     published_at = Column(DateTime, default=datetime.utcnow) 
