@@ -1,0 +1,19 @@
+<div style="padding: 20px; font-family: Arial, sans-serif;">
+  <h1>Bine ai venit la {{ title }}!</h1>
+  <hr>
+  
+  <h2>Știrile tale:</h2>
+  
+  <ul>
+    @for (article of articles; track article.id) {
+      <li style="margin-bottom: 15px;">
+        <strong>{{ article.title }}</strong> 
+        <span style="color: gray; font-size: 0.9em;"> ({{ article.source }})</span>
+        <br>
+        <a [href]="article.url" target="_blank">Citește mai mult</a>
+      </li>
+    } @empty {
+      <p>Nu există nicio știre în baza de date.</p>
+    }
+  </ul>
+</div>
