@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 export interface Article{
   id: number;
@@ -15,7 +16,7 @@ export interface Article{
   providedIn: 'root'
 })
 export class ArticleService {
-  private apiUrl = 'http://127.0.0.1:8000/articles/';
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) { }
 
   getArticles(): Observable<Article[]> {

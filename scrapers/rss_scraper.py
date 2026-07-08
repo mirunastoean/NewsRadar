@@ -1,14 +1,16 @@
 import json
 import time
+
+from dotenv import load_dotenv
 import feedparser
 from confluent_kafka import Producer
 
-
+load_dotenv()
 KAFKA_CONFIG = {
-    'bootstrap.servers': 'localhost:9092'
+    'bootstrap.servers': os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
 }
-TOPIC_NAME = 'rss-articles'
-# API_URL = "http://127.0.0.1:8000/articles/"
+TOPIC_NAME = os.getenv('KAFKA_TOPIC_RSS', 'rss-articles')
+
 RSS_FEED_URL = "https://www.hotnews.ro/rss"
 SOURCE_NAME = "HotNews"
 
