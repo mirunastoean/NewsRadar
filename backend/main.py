@@ -5,7 +5,7 @@ from src.models import models
 from src.api import article_routes
 from src.utils.exceptions import ArticleAlreadyExistsError
 from fastapi.middleware.cors import CORSMiddleware
-
+from kafka_consumer import start_consumer_thread
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -13,6 +13,10 @@ app = FastAPI(
     description="Backend-ul pentru platforma de colectare si analiza a stirilor",
     version="1.1.0"
 )
+@app.on_event("startup")
+def startup_event():
+    start_consumer_thread()
+    
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:4200"], 
