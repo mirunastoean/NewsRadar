@@ -3,11 +3,15 @@
 </mat-toolbar>
 
 <div class="search-section">
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Caută o știre sau o sursă...</mat-label>
-    <input matInput type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <mat-card class="search-card">
+    <mat-form-field appearance="fill" class="search-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" placeholder="Caută titluri, surse, etc..." [(ngModel)]="searchTerm" (keyup)="applyFilter()">
+      <button *ngIf="searchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''; applyFilter()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </mat-card>
 </div>
 
 <div class="articles-container">
