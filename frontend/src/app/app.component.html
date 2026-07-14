@@ -2,8 +2,16 @@
   <span>Welcome to {{ title }}!</span>
 </mat-toolbar>
 
+<div class="search-section">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Caută o știre sau o sursă...</mat-label>
+    <input matInput type="text" [(ngModel)]="searchTerm" (keyup)="applyFilter()">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</div>
+
 <div class="articles-container">
-  @for (article of articles; track article.id) {
+  @for (article of filteredArticles; track article.id) {
     <mat-card class="article-card">
       
       <mat-card-header>
@@ -22,7 +30,7 @@
     </mat-card>
   } @empty {
     <div style="padding: 20px; text-align: center; width: 100%;">
-      <p>Nu există nicio știre în baza de date.</p>
+      <p>Nu am găsit nicio știre care să se potrivească.</p>
     </div>
   }
 </div>
