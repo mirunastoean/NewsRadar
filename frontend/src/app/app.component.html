@@ -1,19 +1,28 @@
-<div style="padding: 20px; font-family: Arial, sans-serif;">
-  <h1>Bine ai venit la {{ title }}!</h1>
-  <hr>
-  
-  <h2>Știrile tale:</h2>
-  
-  <ul>
-    @for (article of articles; track article.id) {
-      <li style="margin-bottom: 15px;">
-        <strong>{{ article.title }}</strong> 
-        <span style="color: gray; font-size: 0.9em;"> ({{ article.source }})</span>
-        <br>
-        <a [href]="article.url" target="_blank">Citește mai mult</a>
-      </li>
-    } @empty {
+<mat-toolbar color="primary">
+  <span>Welcome to {{ title }}!</span>
+</mat-toolbar>
+
+<div class="articles-container">
+  @for (article of articles; track article.id) {
+    <mat-card class="article-card">
+      
+      <mat-card-header>
+        <mat-card-title>{{ article.title }}</mat-card-title>
+        <mat-card-subtitle>{{ article.source }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>{{ article.content ? (article.content | slice:0:150) + '...' : 'Fără descriere disponibilă.' }}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <a mat-button color="accent" [href]="article.url" target="_blank">Citește articolul</a>
+      </mat-card-actions>
+
+    </mat-card>
+  } @empty {
+    <div style="padding: 20px; text-align: center; width: 100%;">
       <p>Nu există nicio știre în baza de date.</p>
-    }
-  </ul>
+    </div>
+  }
 </div>
