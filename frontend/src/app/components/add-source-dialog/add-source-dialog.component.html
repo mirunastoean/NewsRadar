@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Adaugă Sursă RSS Nouă</h2>
+
+<mat-dialog-content>
+  <div class="dialog-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nume Sursă</mat-label>
+      <input matInput [(ngModel)]="sourceName" placeholder="Ex: HotNews" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Link RSS</mat-label>
+      <input matInput [(ngModel)]="sourceUrl" placeholder="Ex: https://www.hotnews.ro/rss" required>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Anulează</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!sourceName || !sourceUrl">Salvează</button>
+</mat-dialog-actions>

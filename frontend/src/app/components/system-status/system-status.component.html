@@ -1,0 +1,60 @@
+
+<div class="status-container" *ngIf="systemStats">
+  <div class="header">
+    <h2>Status Sistem & Statistici Scraper</h2>
+  </div>
+
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="primary">article</mat-icon>
+        <mat-card-title>Total Articole</mat-card-title>
+        <mat-card-subtitle>În baza de date PostgreSQL</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="stat-value">{{ systemStats.totalArticles | number }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="accent">trending_up</mat-icon>
+        <mat-card-title>Articole Noi</mat-card-title>
+        <mat-card-subtitle>Colectate în ultimele 24h</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="stat-value">+{{ systemStats.articlesToday }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar color="primary">rss_feed</mat-icon>
+        <mat-card-title>Surse Urmărite</mat-card-title>
+        <mat-card-subtitle>Fluxuri RSS active</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="stat-value">{{ systemStats.activeSources }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar [ngClass]="systemStats.kafkaStatus === 'Online' ? 'status-online' : 'status-offline'">
+          dns
+        </mat-icon>
+        <mat-card-title>Status Scraper / Kafka</mat-card-title>
+        <mat-card-subtitle>Ultima rulare: {{ systemStats.lastSync | date:'HH:mm:ss' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="stat-value status-text" [ngClass]="systemStats.kafkaStatus === 'Online' ? 'text-success' : 'text-danger'">
+          {{ systemStats.kafkaStatus }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="!systemStats" style="padding: 24px;">
+  Se încarcă statisticile sistemului...
+</div>

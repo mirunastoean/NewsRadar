@@ -15,13 +15,14 @@ KAFKA_TOPIC_RSS = os.getenv('KAFKA_TOPIC_RSS', 'rss-articles')
 consumer_config = {
     'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
     'group.id': 'backend-articles-group',
-    'auto.offset.reset': 'earliest'
+    'auto.offset.reset': 'earliest',
+    'enable.auto.commit': False  
 }
 
 def process_message(msg_value):
+    db = SessionLocal()
     try:
         data = json.loads(msg_value)
-        db = SessionLocal()
         
         existing_article = db.query(Article).filter(Article.url == data.get('url')).first()
         
@@ -37,9 +38,12 @@ def process_message(msg_value):
             print(f"Articol salvat in DB: {new_article.title}")
         else:
             print(f"Articol deja existent (ignorat): {existing_article.title}")
+        return True 
             
     except Exception as e:
+        db.rollback() 
         print(f"Eroare la procesarea in DB: {e}")
+        return False 
     finally:
         db.close()
 
@@ -63,7 +67,11 @@ def consume_loop():
                     break
             
             print("\nMesaj nou interceptat din Kafka!")
-            process_message(msg.value().decode('utf-8'))
+            is_success = process_message(msg.value().decode('utf-8'))
+            if is_success:
+                consumer.commit(message=msg, asynchronous=False)
+            else:
+                print("Eroare DB: Mesajul a fost reținut în Kafka și nu a primit commit.")
             
     except Exception as e:
         print(f"Consumer-ul s-a oprit: {e}")
