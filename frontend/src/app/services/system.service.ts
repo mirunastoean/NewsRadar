@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface SystemStats {
   totalArticles: number;
   articlesToday: number;
   activeSources: number;
-  lastSync: Date;
+  lastSync: string; 
   kafkaStatus: string;
 }
 
@@ -14,16 +14,10 @@ export interface SystemStats {
   providedIn: 'root'
 })
 export class SystemService {
-  
+  private apiUrl = 'http://localhost:8000/status'; 
+  constructor(private http: HttpClient) {}
+
   getStats(): Observable<SystemStats> {
-    const mockData: SystemStats = {
-      totalArticles: 14532,
-      articlesToday: 128,
-      activeSources: 5,
-      lastSync: new Date(),
-      kafkaStatus: 'Online'
-    };
-    
-    return of(mockData).pipe(delay(500));
+    return this.http.get<SystemStats>(this.apiUrl);
   }
 }

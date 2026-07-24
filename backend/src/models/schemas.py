@@ -17,3 +17,16 @@ class ArticleResponse(ArticleBase):
 
     class Config:
         from_attributes = True
+
+class SourceCreate(BaseModel):
+    name: str
+    url: str
+
+class SourceResponse(BaseModel):
+    id: int
+    name: str
+    url: str
+    is_active: bool
+
+    class Config:
+        from_attributes = True
