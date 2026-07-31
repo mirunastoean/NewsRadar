@@ -81,3 +81,4 @@ def consume_loop():
 def start_consumer_thread():
     thread = threading.Thread(target=consume_loop, daemon=True)
     thread.start()
+

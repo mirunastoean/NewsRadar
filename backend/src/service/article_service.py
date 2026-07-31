@@ -21,4 +21,10 @@ def create_article(db: Session, article: schemas.ArticleCreate):
     return new_article
 
 def get_articles(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Article).offset(skip).limit(limit).all()
+    return (
+        db.query(models.Article)
+        .order_by(models.Article.id.desc())  
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
