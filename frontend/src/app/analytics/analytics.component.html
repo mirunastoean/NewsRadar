@@ -1,0 +1,27 @@
+<div class="analytics-container">
+  <h2>Dashboard Statistici Sistem</h2>
+  <p class="subtitle">Evoluția și distribuția articolelor colectate automat.</p>
+
+  <div class="charts-wrapper">
+    <div class="chart-card">
+      <h3>Distribuție pe Surse RSS</h3>
+      <div class="canvas-container">
+        <canvas baseChart
+          [data]="pieChartData"
+          [type]="pieChartType"
+          [options]="pieChartOptions">
+        </canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Activitate în Ultimele 7 Zile</h3>
+      <div class="canvas-container">
+        <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType">
+        </canvas>
+      </div>
+    </div>
+  </div>
+</div>

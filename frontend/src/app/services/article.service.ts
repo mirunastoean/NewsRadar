@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
-export interface Article{
+export interface Article {
   id: number;
   title: string;
   url: string;
   content: string;
+  summary?: string;
   source: string;
   published_at: string;
 }
@@ -17,9 +18,15 @@ export interface Article{
 })
 export class ArticleService {
   private apiUrl = environment.apiUrl;
+  
   constructor(private http: HttpClient) { }
+  getArticles(searchTerm?: string): Observable<Article[]> {
+    let params = new HttpParams();
+    
+    if (searchTerm) {
+      params = params.set('search', searchTerm);
+    }
 
-  getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.apiUrl);
+    return this.http.get<Article[]>(this.apiUrl, { params });
   }
 }

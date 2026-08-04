@@ -57,7 +57,7 @@ def fetch_and_produce_news():
     producer.flush()
     print("\nExtragerea s-a finalizat pentru toate sursele din baza de date!")
 if __name__ == "__main__":
-    INTERVAL_MINUTE = 1
+    INTERVAL_MINUTE = 60
     
     print(f"Scraper-ul automat a pornit. Va rula o dată la {INTERVAL_MINUTE} minut...")
     while True:

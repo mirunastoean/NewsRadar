@@ -6,7 +6,8 @@ class ArticleBase(BaseModel):
     title: str
     url: str
     content: Optional[str] = None
-    source: str
+    source: Optional[str] = None
+    summary: Optional[str] = None
 
 class ArticleCreate(ArticleBase):
     pass

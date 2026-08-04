@@ -10,11 +10,11 @@ from src.models.models import Article
 load_dotenv()
 
 KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
-KAFKA_TOPIC_RSS = os.getenv('KAFKA_TOPIC_RSS', 'rss-articles')
+KAFKA_TOPIC_AI = os.getenv('KAFKA_TOPIC_AI', 'ai-articles')
 
 consumer_config = {
     'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-    'group.id': 'backend-articles-group',
+    'group.id': 'backend-ai-articles-group', 
     'auto.offset.reset': 'earliest',
     'enable.auto.commit': False  
 }
@@ -23,19 +23,19 @@ def process_message(msg_value):
     db = SessionLocal()
     try:
         data = json.loads(msg_value)
-        
         existing_article = db.query(Article).filter(Article.url == data.get('url')).first()
-        
         if not existing_article:
             new_article = Article(
                 title=data.get('title'),
                 url=data.get('url'),
-                content=data.get('content'),
-                source=data.get('source')
+                summary=data.get('summary'),     
+                sentiment=data.get('sentiment'), 
+                category=data.get('category'),   
+                entities=data.get('entities')     
             )
             db.add(new_article)
             db.commit()
-            print(f"Articol salvat in DB: {new_article.title}")
+            print(f"Articol AI salvat in DB: {new_article.title}")
         else:
             print(f"Articol deja existent (ignorat): {existing_article.title}")
         return True 
@@ -49,9 +49,9 @@ def process_message(msg_value):
 
 def consume_loop():
     consumer = Consumer(consumer_config)
-    consumer.subscribe([KAFKA_TOPIC_RSS])
+    consumer.subscribe([KAFKA_TOPIC_AI])
     
-    print(f"Consumer-ul a inceput sa asculte topicul '{KAFKA_TOPIC_RSS}'...")
+    print(f"Consumer-ul a inceput sa asculte topicul '{KAFKA_TOPIC_AI}'...")
     
     try:
         while True:
@@ -66,7 +66,7 @@ def consume_loop():
                     print(f"Eroare Kafka: {msg.error()}")
                     break
             
-            print("\nMesaj nou interceptat din Kafka!")
+            print("\nMesaj AI nou interceptat din Kafka!")
             is_success = process_message(msg.value().decode('utf-8'))
             if is_success:
                 consumer.commit(message=msg, asynchronous=False)
@@ -81,4 +81,3 @@ def consume_loop():
 def start_consumer_thread():
     thread = threading.Thread(target=consume_loop, daemon=True)
     thread.start()
-

@@ -1,3 +1,6 @@
+from typing import Optional
+
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from src.models import models, schemas
 from src.utils.exceptions import ArticleAlreadyExistsError
@@ -20,9 +23,20 @@ def create_article(db: Session, article: schemas.ArticleCreate):
     db.refresh(new_article)
     return new_article
 
-def get_articles(db: Session, skip: int = 0, limit: int = 100):
+def get_articles(db: Session, skip: int = 0, limit: int = 100, search: Optional[str] = None):
+    query = db.query(models.Article)
+    
+    if search:
+        search_term = f"%{search}%"
+        query = query.filter(
+            or_(
+                models.Article.title.ilike(search_term),
+                models.Article.source.ilike(search_term)
+            )
+        )
+        
     return (
-        db.query(models.Article)
+        query
         .order_by(models.Article.id.desc())  
         .offset(skip)
         .limit(limit)

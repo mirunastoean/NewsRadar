@@ -20,4 +20,7 @@ export class SystemService {
   getStats(): Observable<SystemStats> {
     return this.http.get<SystemStats>(this.apiUrl);
   }
+  getAnalytics() {
+    return this.http.get<any>(`${this.apiUrl}/status/analytics`); 
+  }
 }
