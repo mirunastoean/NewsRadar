@@ -15,6 +15,7 @@ export class AnalyticsComponent implements OnInit {
 
   public pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: true, position: 'right' },
     }
@@ -22,17 +23,44 @@ export class AnalyticsComponent implements OnInit {
   public pieChartType: ChartType = 'pie';
   public pieChartData: ChartData<'pie', number[], string | string[]> = {
     labels: [],
-    datasets: [ { data: [] } ] 
+    datasets: [{ 
+      data: [],
+      backgroundColor: [
+        '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#ec4899', '#14b8a6'
+      ],
+      borderWidth: 0,
+      hoverOffset: 4
+    }] 
   };
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      x: { 
+        grid: { display: false }
+      },
+      y: { 
+        beginAtZero: true,
+        grid: { color: '#f1f5f9' },
+        border: { display: false }
+      }
+    }
   };
   public barChartType: ChartType = 'bar';
   public barChartData: ChartData<'bar'> = {
     labels: [], 
     datasets: [
-      { data: [], label: 'Articole extrase pe zi', backgroundColor: '#3f51b5' }
+      { 
+        data: [], 
+        label: 'Articole', 
+        backgroundColor: '#3b82f6',
+        hoverBackgroundColor: '#2563eb',
+        borderRadius: 6
+      }
     ]
   };
 
@@ -52,7 +80,7 @@ export class AnalyticsComponent implements OnInit {
           this.barChartData = { ...this.barChartData };
         }
       },
-      error: (err) => console.error('Eroare la preluarea datelor analitice:', err)
+      error: (err) => console.error(err)
     });
   }
 }

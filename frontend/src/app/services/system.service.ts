@@ -21,6 +21,6 @@ export class SystemService {
     return this.http.get<SystemStats>(this.apiUrl);
   }
   getAnalytics() {
-    return this.http.get<any>(`${this.apiUrl}/status/analytics`); 
+    return this.http.get<any>(`${this.apiUrl}/analytics`); 
   }
 }

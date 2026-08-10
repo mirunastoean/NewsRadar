@@ -7,10 +7,13 @@ export interface Article {
   id: number;
   title: string;
   url: string;
-  content: string;
-  summary?: string;
+  content?: string;
   source: string;
-  published_at: string;
+  published_at?: string;
+  summary?: string;
+  sentiment?: string;
+  category?: string;
+  entities?: string[];
 }
 
 @Injectable({

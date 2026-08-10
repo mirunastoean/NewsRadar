@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { AddSourceDialogComponent } from '../components/add-source-dialog/add-source-dialog.component';
-import { SourceService, RssSource } from '../services/source.service'; 
+import { SourceService, RssSource } from '../services/source.service';
 
 @Component({
   selector: 'app-manage-sources-dialog',
@@ -11,15 +12,16 @@ import { SourceService, RssSource } from '../services/source.service';
   imports: [
     MatTableModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
-  templateUrl: './manage-sources-dialog.component.html', 
+  templateUrl: './manage-sources-dialog.component.html',
   styleUrls: ['./manage-sources-dialog.component.scss']
 })
-export class ManageSourcesDialogComponent implements OnInit { 
+export class ManageSourcesDialogComponent implements OnInit {
   sources: RssSource[] = [];
   displayedColumns: string[] = ['name', 'url', 'actions'];
-  dataSource: RssSource[] = []; 
+  dataSource: RssSource[] = [];
 
   constructor(private dialog: MatDialog, private sourceService: SourceService) {}
 
@@ -33,13 +35,13 @@ export class ManageSourcesDialogComponent implements OnInit {
         this.sources = data;
         this.refreshTable();
       },
-      error: (err) => console.error('Eroare la încărcarea surselor:', err)
+      error: (err) => console.error(err)
     });
   }
 
   openAddSourceDialog(): void {
     const dialogRef = this.dialog.open(AddSourceDialogComponent, {
-      width: '400px'
+      width: '450px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -49,7 +51,7 @@ export class ManageSourcesDialogComponent implements OnInit {
             this.sources.push(newSource);
             this.refreshTable();
           },
-          error: (err) => console.error('Eroare la adăugarea sursei:', err)
+          error: (err) => console.error(err)
         });
       }
     });
@@ -62,7 +64,7 @@ export class ManageSourcesDialogComponent implements OnInit {
           this.sources = this.sources.filter(s => s.id !== sourceToDelete.id);
           this.refreshTable();
         },
-        error: (err) => console.error('Eroare la ștergerea sursei:', err)
+        error: (err) => console.error(err)
       });
     }
   }

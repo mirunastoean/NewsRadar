@@ -22,7 +22,7 @@ export class SystemStatusComponent implements OnInit {
       next: (data) => {
         this.systemStats = data;
       },
-      error: (err) => console.error('Eroare la aducerea statisticilor de sistem:', err)
+      error: (err) => console.error(err)
     });
   }
 }

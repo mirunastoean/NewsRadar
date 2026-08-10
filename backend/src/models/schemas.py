@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 class ArticleBase(BaseModel):
     title: str
@@ -8,6 +8,9 @@ class ArticleBase(BaseModel):
     content: Optional[str] = None
     source: Optional[str] = None
     summary: Optional[str] = None
+    sentiment: Optional[str] = None
+    category: Optional[str] = None
+    entities: Optional[List[str]] = None
 
 class ArticleCreate(ArticleBase):
     pass

@@ -15,17 +15,39 @@
 <div class="articles-container">
   @for (article of articles; track article.id) {
     <mat-card class="article-card">
+      
       <mat-card-header>
+        <div mat-card-avatar class="sentiment-avatar" [ngClass]="getSentimentClass(article.sentiment)">
+          <mat-icon>{{ getSentimentIcon(article.sentiment) }}</mat-icon>
+        </div>
         <mat-card-title>{{ article.title }}</mat-card-title>
         <mat-card-subtitle>{{ article.source }}</mat-card-subtitle>
       </mat-card-header>
+
       <mat-card-content>
-        <p class="text-sm text-gray-600">
+        <div class="meta-chips">
+          <mat-chip-set aria-label="Detalii AI">
+            <mat-chip *ngIf="article.category" class="category-chip">
+              {{ article.category }}
+            </mat-chip>
+            @for (entity of $any(article).entities | slice:0:3; track entity) {
+              <mat-chip class="entity-chip">{{ entity }}</mat-chip>
+            }
+            <mat-chip *ngIf="$any(article).entities && $any(article).entities.length > 3" class="entity-chip">
+              +{{ $any(article).entities.length - 3 }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+
+        <p class="summary-text">
           {{ article.summary || (article.content | slice:0:120) + '...' || 'Fără descriere disponibilă.' }}
         </p>
       </mat-card-content>
-      <mat-card-actions>
-        <a mat-button color="accent" [href]="article.url" target="_blank">Citește articolul</a>
+
+      <mat-card-actions class="card-actions">
+        <a class="read-more-btn" [href]="article.url" target="_blank">
+          Citește articolul <mat-icon>arrow_right_alt</mat-icon>
+        </a>
       </mat-card-actions>
     </mat-card>
   } @empty {

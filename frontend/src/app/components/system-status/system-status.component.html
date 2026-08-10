@@ -1,13 +1,15 @@
-
 <div class="status-container" *ngIf="systemStats">
   <div class="header">
-    <h2>Status Sistem & Statistici Scraper</h2>
+    <h2>Status Sistem & Statistici</h2>
+    <p class="subtitle">O privire de ansamblu asupra stării pipeline-ului de date și a scraperului.</p>
   </div>
 
   <div class="stats-grid">
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-icon mat-card-avatar color="primary">article</mat-icon>
+        <div mat-card-avatar class="icon-avatar icon-blue">
+          <mat-icon>article</mat-icon>
+        </div>
         <mat-card-title>Total Articole</mat-card-title>
         <mat-card-subtitle>În baza de date PostgreSQL</mat-card-subtitle>
       </mat-card-header>
@@ -18,7 +20,9 @@
 
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-icon mat-card-avatar color="accent">trending_up</mat-icon>
+        <div mat-card-avatar class="icon-avatar icon-green">
+          <mat-icon>trending_up</mat-icon>
+        </div>
         <mat-card-title>Articole Noi</mat-card-title>
         <mat-card-subtitle>Colectate în ultimele 24h</mat-card-subtitle>
       </mat-card-header>
@@ -29,7 +33,9 @@
 
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-icon mat-card-avatar color="primary">rss_feed</mat-icon>
+        <div mat-card-avatar class="icon-avatar icon-purple">
+          <mat-icon>rss_feed</mat-icon>
+        </div>
         <mat-card-title>Surse Urmărite</mat-card-title>
         <mat-card-subtitle>Fluxuri RSS active</mat-card-subtitle>
       </mat-card-header>
@@ -40,14 +46,14 @@
 
     <mat-card class="stat-card">
       <mat-card-header>
-        <mat-icon mat-card-avatar [ngClass]="systemStats.kafkaStatus === 'Online' ? 'status-online' : 'status-offline'">
-          dns
-        </mat-icon>
-        <mat-card-title>Status Scraper / Kafka</mat-card-title>
+        <div mat-card-avatar class="icon-avatar" [ngClass]="systemStats.kafkaStatus === 'Online' ? 'icon-green' : 'icon-red'">
+          <mat-icon>dns</mat-icon>
+        </div>
+        <mat-card-title>Scraper & Kafka</mat-card-title>
         <mat-card-subtitle>Ultima rulare: {{ systemStats.lastSync | date:'HH:mm:ss' }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p class="stat-value status-text" [ngClass]="systemStats.kafkaStatus === 'Online' ? 'text-success' : 'text-danger'">
+        <p class="stat-value" [ngClass]="systemStats.kafkaStatus === 'Online' ? 'text-success' : 'text-danger'">
           {{ systemStats.kafkaStatus }}
         </p>
       </mat-card-content>
@@ -55,6 +61,7 @@
   </div>
 </div>
 
-<div *ngIf="!systemStats" style="padding: 24px;">
-  Se încarcă statisticile sistemului...
+<div class="loading-state" *ngIf="!systemStats">
+  <mat-icon class="spinner">autorenew</mat-icon>
+  <p>Se încarcă statisticile sistemului...</p>
 </div>
