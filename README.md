@@ -28,17 +28,20 @@ Pentru a rula acest proiect local, ai nevoie de următoarele instalate pe sistem
 *   [Docker Desktop](https://www.docker.com/) (pentru containerele de baze de date, Kafka și Keycloak).
 *   [Node.js](https://nodejs.org/) (versiunea 18+ pentru Angular).
 *   [Python](https://www.python.org/) (versiunea 3.10+).
+*   Un cont și un API Key activ pe platforma [Groq](https://console.groq.com/).
+
+> **Notă Importantă:** Creează un fișier `.env` în folderul `backend` care să conțină cheia ta: `GROQ_API_KEY=cheia_ta_aici`.
 
 ---
 
 ## Ghid de Instalare și Rulare
 
-Urmează pașii de mai jos, deschizând terminale separate pentru fiecare componentă.
+### 🚀 Metoda Rapidă (Recomandat pentru Windows)
+Dacă folosești Windows, am creat un script de automatizare care pornește absolut tot sistemul (Docker, baze de date, backend, AI, scrapere și frontend) într-o singură comandă!
 
-### 1. Pornirea Infrastructurii (Docker)
-Proiectul folosește `docker-compose.yml` pentru a ridica instantaneu baza de date, sistemul de mesagerie și serverul de identitate.
+Deschide terminalul în folderul principal al proiectului și rulează:
 ```bash
-docker-compose up -d 
+.\start_newsradar.bat
 ```
 
 ### 2. Configurarea Backend-ului (FastAPI)
