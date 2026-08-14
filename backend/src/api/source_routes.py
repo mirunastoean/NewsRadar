@@ -2,23 +2,24 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from database import get_db
-from database import get_db
 from src.models import models, schemas
+from src.utils.security import verify_token
 
 router = APIRouter(
     prefix="/sources",
     tags=["Sources"]
 )
 
-@router.get("/", response_model=List[schemas.SourceResponse])
+@router.get("/", response_model=List[schemas.SourceResponse], dependencies=[Depends(verify_token)])
 def get_sources(db: Session = Depends(get_db)):
     return db.query(models.Source).all()
 
-@router.post("/", response_model=schemas.SourceResponse)
+@router.post("/", response_model=schemas.SourceResponse, dependencies=[Depends(verify_token)])
 def create_source(source: schemas.SourceCreate, db: Session = Depends(get_db)):
     db_source = db.query(models.Source).filter(models.Source.url == source.url).first()
     if db_source:
         raise HTTPException(status_code=400, detail="Sursa cu acest URL există deja.")
+    
     new_source = models.Source(name=source.name, url=source.url)
     db.add(new_source)
     db.commit()
@@ -26,11 +27,12 @@ def create_source(source: schemas.SourceCreate, db: Session = Depends(get_db)):
     
     return new_source
 
-@router.delete("/{source_id}")
+@router.delete("/{source_id}", dependencies=[Depends(verify_token)])
 def delete_source(source_id: int, db: Session = Depends(get_db)):
     source = db.query(models.Source).filter(models.Source.id == source_id).first()
     if not source:
         raise HTTPException(status_code=404, detail="Sursa nu a fost găsită")
+    
     db.delete(source)
     db.commit()
     

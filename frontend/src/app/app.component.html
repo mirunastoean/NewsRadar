@@ -1,9 +1,20 @@
 <div class="app-layout">
   <mat-toolbar color="primary" class="top-toolbar">
-    <button mat-icon-button (click)="sidenav.toggle()" style="color: grey; margin-right: 15px;">
-      <mat-icon>menu</mat-icon>
+    <div style="display: flex; align-items: center;">
+      <button mat-icon-button (click)="sidenav.toggle()" style="color: grey; margin-right: 15px;">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>{{ title }}</span>
+    </div>
+    <span class="spacer" style="flex: 1 1 auto;"></span>
+    <button mat-flat-button color="accent" (click)="login()" *ngIf="!isLoggedIn">
+      <mat-icon>login</mat-icon>
+      Login
     </button>
-    <span>{{ title }}</span>
+    <button mat-flat-button color="warn" (click)="logout()" *ngIf="isLoggedIn">
+      <mat-icon>logout</mat-icon>
+      Logout ({{ userName }})
+    </button>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
