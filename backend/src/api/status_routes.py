@@ -45,14 +45,14 @@ def get_system_status(db: Session = Depends(get_db)):
 
 @router.get("/analytics")
 def get_analytics(db: Session = Depends(get_db)):
-    source_distribution_raw = (
-        db.query(Article.source, func.count(Article.id))
-        .group_by(Article.source)
+    sentiment_distribution_raw = (
+        db.query(Article.sentiment, func.count(Article.id))
+        .group_by(Article.sentiment)
         .all()
     )
-    source_distribution = [{"source": item[0] or "Necunoscut", "count": item[1]} for item in source_distribution_raw]
+    sentiment_distribution = [{"sentiment": item[0] or "Neprocesat", "count": item[1]} for item in sentiment_distribution_raw]
+
     seven_days_ago = datetime.now() - timedelta(days=7)
-    
     daily_activity_raw = (
         db.query(cast(Article.published_at, Date), func.count(Article.id))
         .filter(Article.published_at >= seven_days_ago)
@@ -61,8 +61,24 @@ def get_analytics(db: Session = Depends(get_db)):
         .all()
     )
     daily_activity = [{"date": item[0].strftime("%Y-%m-%d"), "count": item[1]} for item in daily_activity_raw if item[0]]
+    category_distribution_raw = (
+        db.query(Article.category, func.count(Article.id))
+        .group_by(Article.category)
+        .all()
+    )
+    category_distribution = [{"category": item[0] or "Necategorizat", "count": item[1]} for item in category_distribution_raw]
+    top_sources_raw = (
+        db.query(Article.source, func.count(Article.id))
+        .group_by(Article.source)
+        .order_by(func.count(Article.id).desc())
+        .limit(5)
+        .all()
+    )
+    top_sources = [{"source": item[0] or "Necunoscut", "count": item[1]} for item in top_sources_raw]
 
     return {
-        "sourceDistribution": source_distribution,
-        "dailyActivity": daily_activity
+        "sentimentDistribution": sentiment_distribution, 
+        "dailyActivity": daily_activity,
+        "categoryDistribution": category_distribution,
+        "topSources": top_sources
     }

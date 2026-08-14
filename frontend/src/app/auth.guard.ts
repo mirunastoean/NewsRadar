@@ -1,5 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { OAuthService } from 'angular-oauth2-oidc';
 
@@ -12,16 +12,21 @@ export class AuthGuard implements CanActivate {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  async canActivate(): Promise<boolean> {
+  canActivate(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+
       if (this.oauthService.hasValidAccessToken()) {
         return true; 
       }
+      const queryParams = window.location.search;
+      if (queryParams.includes('code=') || queryParams.includes('state=')) {
+        return true;
+      }
+
       this.oauthService.initCodeFlow();
       return false;
     }
-
-    return true; 
+    
+    return true;
   }
 }

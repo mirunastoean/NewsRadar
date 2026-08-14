@@ -11,7 +11,7 @@
           <mat-icon>article</mat-icon>
         </div>
         <mat-card-title>Total Articole</mat-card-title>
-        <mat-card-subtitle>În baza de date PostgreSQL</mat-card-subtitle>
+        <mat-card-subtitle>În baza de date</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <p class="stat-value">{{ systemStats.totalArticles | number }}</p>
@@ -56,6 +56,22 @@
         <p class="stat-value" [ngClass]="systemStats.kafkaStatus === 'Online' ? 'text-success' : 'text-danger'">
           {{ systemStats.kafkaStatus }}
         </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="charts-section">
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Eficiență Pipeline (Ultimele 7 zile)</mat-card-title>
+        <mat-card-subtitle>Evoluția zilnică a articolelor extrase și procesate de AI</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="chart-container">
+        <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType">
+        </canvas>
       </mat-card-content>
     </mat-card>
   </div>

@@ -15,6 +15,7 @@ const authConfig: AuthConfig = {
   responseType: 'code',
   scope: 'openid profile email',
   showDebugInformation: true,
+  clearHashAfterLogin: true,
 };
 
 @Component({

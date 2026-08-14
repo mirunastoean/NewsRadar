@@ -30,7 +30,7 @@
             <mat-chip *ngIf="article.category" class="category-chip">
               {{ article.category }}
             </mat-chip>
-            @for (entity of $any(article).entities | slice:0:3; track entity) {
+            @for (entity of $any(article).entities | slice:0:3; track $index) {
               <mat-chip class="entity-chip">{{ entity }}</mat-chip>
             }
             <mat-chip *ngIf="$any(article).entities && $any(article).entities.length > 3" class="entity-chip">

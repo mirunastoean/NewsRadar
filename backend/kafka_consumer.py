@@ -28,6 +28,8 @@ def process_message(msg_value):
             new_article = Article(
                 title=data.get('title'),
                 url=data.get('url'),
+                content=data.get('content'),   
+                source=data.get('source'),
                 summary=data.get('summary'),     
                 sentiment=data.get('sentiment'), 
                 category=data.get('category'),   

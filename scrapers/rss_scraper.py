@@ -59,7 +59,7 @@ def fetch_and_produce_news():
 if __name__ == "__main__":
     INTERVAL_MINUTE = 60
     
-    print(f"Scraper-ul automat a pornit. Va rula o dată la {INTERVAL_MINUTE} minut...")
+    print(f"Scraper-ul automat a pornit. Va rula o dată la {INTERVAL_MINUTE} minute...")
     while True:
         try:
             fetch_and_produce_news()
